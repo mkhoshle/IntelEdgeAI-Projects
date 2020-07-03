@@ -20,7 +20,7 @@ Comparison of the models before and after conversion to Intermediate Representat
 THIS RESULTS ARE FOR SSD_MOBILENET
 In the video the people come into the scene and leave at following frame number:
 
-    in - out
+  into frame - out of frame
 - p1: 61 - 198 
 - p2: 228 - 449
 - p3: 503 - 700
@@ -32,7 +32,7 @@ Therefore, total No of frames at which a person exists is: 1080
 
 Running the model **post-conversion**, I got the following result when a person come into the scene and leave:
 
-    in - out
+  into frame - out of frame
 - p1: 70 - 72
 - p2: 236 - 241
 - p3: 512 - 516
