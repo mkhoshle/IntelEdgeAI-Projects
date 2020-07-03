@@ -134,8 +134,7 @@ In investigating potential people counter models, I tried each of the following 
 - Model 3: [ssd_mobilenet_v2_coco_2018_03_29]
   - [OpenVino Model ZOO]
   - I converted the model to an Intermediate Representation with the following arguments:
-  
-  ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model                 frozen_inference_graph.pb --tensorflow_object_detection_api_pipeline_config pipeline.config     --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino           /deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```
+  ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model frozen_inference_graph.pb --tensorflow_object_detection_api_pipeline_config pipeline.config     --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```
   
   - The model was sufficient for the app. Because this model was a pretty small and efficiet model, I used it for debugging purpose and it was very helpful for me to get my code working.
 
@@ -145,11 +144,9 @@ In investigating potential people counter models, I tried each of the following 
 - Model 4: [DSOD]
   - [https://github.com/szq0214/DSOD]. Here is the link to the model I downloaded for the project: https://drive.google.com/drive/folders/0B4cvsEOB5eUCaGU3MkRkOENRWWc. The model is: DSOD300 (07+12) bs=4.
   - I converted the model to an Intermediate Representation with the following arguments:
-  
   ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model DSOD300_VOC0712.caffemodel --input_proto deploy.prototxt```
   
   - The model was sufficient for the app and I successfully converted it to IR representation.
   - This model is my final model I used for answering the project's questions.
   
-  - **Note**: To run the model you should use the following command:
-  ```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model4-DSOD/DSOD300_VOC0712.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.85```
+  - **Note**: To run the model you should use the following command:```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model4-DSOD/DSOD300_VOC0712.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.85```
