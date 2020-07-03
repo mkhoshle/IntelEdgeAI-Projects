@@ -88,7 +88,8 @@ In investigating potential people counter models, I tried each of the following 
   File "/home/workspace/inference.py", line 54, in load_model
     self.network = IENetwork(model=model_xml, weights=model_bin)        
   File "ie_api.pyx", line 415, in openvino.inference_engine.ie_api.IENetwork.__cinit__
-   RuntimeError: segment exceeds given buffer limits. Please, validate weights file```.
+   RuntimeError: segment exceeds given buffer limits. Please, validate weights file.
+   ```
 
   - I did not try to improve the model for the app and decided to look for smaller, more efficient models.
   
