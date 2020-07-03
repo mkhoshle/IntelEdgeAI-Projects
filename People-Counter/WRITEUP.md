@@ -95,17 +95,16 @@ In investigating potential people counter models, I tried each of the following 
 - Model 2: [Efficientdet]
   - [https://github.com/google/automl/tree/master/efficientdet]
   - I converted the model to an Intermediate Representation with the following arguments:
-  ```
-  !rm  -rf savedmodeldir
+  ```!rm  -rf savedmodeldir
   !python model_inspect.py --runmode=saved_model --model_name=efficientdet-d0 \
    --ckpt_path=efficientdet-d0 --saved_model_dir=savedmodeldir \
-   --tensorrt=FP32 --tflite_path=efficientdet-d0.tflite```
+   --tensorrt=FP32 --tflite_path=efficientdet-d0.tflite.```
    
-  And then, 
+ And then, 
   
-  ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model efficientdet-   d0_frozen.pb --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```.
-  
-  But I got the following error:
+  ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model efficientdet-   d0_frozen.pb --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```
+    
+But I got the following error:
  
   ```np_resource = np.dtype([("resource", np.ubyte, 1)])
   [ ERROR ]  Failed to match nodes from custom replacement description with id                     'ObjectDetectionAPIPreprocessorReplacement':
