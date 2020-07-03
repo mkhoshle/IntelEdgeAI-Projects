@@ -105,7 +105,6 @@ In investigating potential people counter models, I tried each of the following 
   ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model efficientdet-   d0_frozen.pb --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```
     
 But I got the following error:
- 
   ```np_resource = np.dtype([("resource", np.ubyte, 1)])
   [ ERROR ]  Failed to match nodes from custom replacement description with id                     'ObjectDetectionAPIPreprocessorReplacement':
   It means model and custom replacement description are incompatible.
@@ -125,7 +124,8 @@ But I got the following error:
   For more information please refer to Model Optimizer FAQ (https://docs.openvinotoolkit.org       /latest/_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html), question #38. 
   Exception occurred during running replacer "REPLACEMENT_ID" (<class                             'extensions.middle.PartialInfer.PartialInfer'>): Tensorflow type 21 not convertible to numpy     dtype.
   Stopped shape/value propagation at "TensorArrayV2" node. 
-  For more information please refer to Model Optimizer FAQ (https://docs.openvinotoolkit.org       /latest/_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html), question #38.```
+  For more information please refer to Model Optimizer FAQ (https://docs.openvinotoolkit.org       /latest/_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html), question #38
+  ```
   
   - The model was insufficient for the app because Efficientdet is a new network and probably written in Tensorflow 2. Therefore my guess is that this network is not supported by OpenVino yet, efficientdet is not found in https://docs.openvinotoolkit.org/latest/_docs_MO_DG_prepare_model_convert_model_tf_specific_Convert_Object_Detection_API_Models.html.
   - I tried to look for other models.
