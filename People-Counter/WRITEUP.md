@@ -42,11 +42,11 @@ p6: 1243 - 1251
 
 As can be seen all the frames at which it is predicted that a person enter and leave are all whitin the period in the originial video shown above. Because the probability thresold I used is pretty high it makes sense to me that the number of frame the model predicts that the person is in the scene is much lower than what it actually is in the original video. 
 
- -Total No of frames in original video: 1394
- -True Positives: 2,5,4,91,1,8 = 111
- -False Negatives: 135,216,193,32,277,116 = 969
- -True Negative: 1394-1080 =314
- -Accuracy = (TP+TN)/Total = (314+111)/1394 = 0.3
+ - Total No of frames in original video: 1394
+ - True Positives: 2,5,4,91,1,8 = 111
+ - False Negatives: 135,216,193,32,277,116 = 969
+ - True Negative: 1394-1080 =314
+ - Accuracy = (TP+TN)/Total = (314+111)/1394 = 0.3
 
 _Note:_ I do not have the model accuracy for the pre-converted model. I have created the code for running inference on the pre-converted model (Inference-MobileNet-Preconverted.ipynb) but on laptop was too slow. So I could not run it. 
 
