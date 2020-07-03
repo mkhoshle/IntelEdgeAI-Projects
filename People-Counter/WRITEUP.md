@@ -17,7 +17,8 @@ Comparison of the models before and after conversion to Intermediate Representat
 
 **Model Accuracy:** The model accuracy pre-conversion is usuallay a little higher than post-conversion. The reason is that the optimization of the modle usually leads to the drop in the accuracy.
 
-THIS RESULTS ARE FOR SSD_MOBILENET
+THIS RESULTS ARE FOR SSD_MOBILENET.
+
 In the video the people come into the scene and leave at following frame number:
 
   into frame - out of frame
