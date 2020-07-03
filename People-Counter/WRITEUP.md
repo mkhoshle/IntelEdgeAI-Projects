@@ -102,12 +102,12 @@ In investigating potential people counter models, I tried each of the following 
    --tensorrt=FP32 --tflite_path=efficientdet-d0.tflite```
    
   And then, 
-  ```
-  python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model efficientdet-   d0_frozen.pb --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```.
+  
+  ```python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model efficientdet-   d0_frozen.pb --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json```.
   
   But I got the following error:
-  ```
-  np_resource = np.dtype([("resource", np.ubyte, 1)])
+ 
+  ```np_resource = np.dtype([("resource", np.ubyte, 1)])
   [ ERROR ]  Failed to match nodes from custom replacement description with id                     'ObjectDetectionAPIPreprocessorReplacement':
   It means model and custom replacement description are incompatible.
   Try to correct custom replacement description according to documentation with respect to model   node names
