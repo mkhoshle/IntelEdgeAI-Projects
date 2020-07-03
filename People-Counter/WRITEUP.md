@@ -21,24 +21,24 @@ THIS RESULTS ARE FOR SSD_MOBILENET
 In the video the people come into the scene and leave at following frame number:
 
     in - out
-p1: 61 - 198 
-p2: 228 - 449
-p3: 503 - 700
-p4: 746 - 869
-p5: 922 - 1200
-p6: 1236 - 1360
+- p1: 61 - 198 
+- p2: 228 - 449
+- p3: 503 - 700
+- p4: 746 - 869
+- p5: 922 - 1200
+- p6: 1236 - 1360
 
 Therefore, total No of frames at which a person exists is: 1080
 
 Running the model **post-conversion**, I got the following result when a person come into the scene and leave:
 
     in - out
-p1: 70 - 72
-p2: 236 - 241
-p3: 512 - 516
-p4: 759 - 780
-p5: 1182 - 1183
-p6: 1243 - 1251
+- p1: 70 - 72
+- p2: 236 - 241
+- p3: 512 - 516
+- p4: 759 - 780
+- p5: 1182 - 1183
+- p6: 1243 - 1251
 
 As can be seen all the frames at which it is predicted that a person enter and leave are all whitin the period in the originial video shown above. Because the probability thresold I used is pretty high it makes sense to me that the number of frame the model predicts that the person is in the scene is much lower than what it actually is in the original video. 
 
