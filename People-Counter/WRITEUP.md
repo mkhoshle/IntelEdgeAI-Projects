@@ -49,7 +49,7 @@ As can be seen all the frames at which it is predicted that a person enter and l
  - True Negative: 1394-1080 =314
  - Accuracy = (TP+TN)/Total = (314+111)/1394 = 0.3
 
-Running the model **pre-conversion**, I have created the code for running inference on the pre-converted model (Inference-MobileNet-Preconverted.ipynb). I got the following result when a person come into the scene and leave:  
+Running the model **pre-conversion**, I have created the code for running inference on the pre-converted model (`Inference-MobileNet-Preconverted.ipynb`). I got the following result when a person come into the scene and leave:  
 
  - Total No of frames in original video: 1394
  - True Positives: 134
@@ -86,7 +86,7 @@ In investigating potential people counter models, I tried each of the following 
 
 - Model 1: [LSCCNN]
   - [https://github.com/val-iisc/lsc-cnn/tree/master/utils]
-  - I converted the model to an Intermediate Representation with the code named Convert-lsccnn-to-IR.ipynb. 
+  - I converted the model to an Intermediate Representation with the code named `Convert-lsccnn-to-IR.ipynb`. 
   - The model was insufficient for the app because the model was too complicated and heavy for edge application. The size was an issue to load in buffer. If we want to use such a model for edge application, it would require model optimization techniques. This is because on edge there will not be enough memory resources for such complicated models. The error I got was:
   ```Traceback (most recent call last):
   File "main.py", line 219, in <module>
