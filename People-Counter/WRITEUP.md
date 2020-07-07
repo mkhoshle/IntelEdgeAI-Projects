@@ -29,7 +29,7 @@ In the video the people come into the scene and leave at following frame number:
 - p5: 922 - 1200
 - p6: 1236 - 1360
 
-Therefore, total No of frames at which a person exists is: 1080
+Therefore, total No of frames at which a person exists is: **1080**
 
 Running the model **post-conversion**, I got the following result when a person come into the scene and leave:
 
@@ -49,11 +49,18 @@ As can be seen all the frames at which it is predicted that a person enter and l
  - True Negative: 1394-1080 =314
  - Accuracy = (TP+TN)/Total = (314+111)/1394 = 0.3
 
-_Note:_ I do not have the model accuracy for the pre-converted model. I have created the code for running inference on the pre-converted model (Inference-MobileNet-Preconverted.ipynb) but on laptop was too slow. So I could not run it. 
+Running the model **pre-conversion**, I have created the code for running inference on the pre-converted model (Inference-MobileNet-Preconverted.ipynb). I got the following result when a person come into the scene and leave:  
 
-**Model Size:** I checked model size using ls -sh command. The size of the model pre- and post-conversion was 57MB and 57MB (for DSOD) respectively and 67MB and 65MB (for SSD-Mobilenet-v2) respectively. Overal pre-converted is a little higher in size than post-converted model.
+ - Total No of frames in original video: 1394
+ - True Positives: 134
+ - False Negatives: 946
+ - True Negative: 1394-1080 = 314
+ - Accuracy = (TP+TN)/Total = (314+134)/1394 = 0.32
 
-**Inference Time:** The inference time of the model pre-conversion was taking hours. I tested the preconversion model inference time for SSD-Mobilenet-v2 on my laptop and it was very slow. I have uploaded my code (Inference-MobileNet-Preconverted.ipynb) for running the inference on the pre-converted model(.pb file). Since it was too slow I did not run the inference for all frames. Overal there are 1394 frames that I obtained using `int(capture.get(cv2.CAP_PROP_FRAME_COUNT))`. The inference time for a single frame was 11.31s. Because all frames are of the same size, we can say that the total inference time will be about 15766.14s approximately. These timings are for SSD-Mobilenet-v2 model. And model post-conversion was 438.8s(SSD-Mobilenet-v2), 1035.56s(DSOD) respectively. The difference between 15766.14 and 438.8s is huge.
+
+**Model Size:** I checked model size using ls -sh command. The size of the model pre- and post-conversion was 57MB+100KB and 57MB+168KB+40KB (for DSOD) respectively and 67MB+8KB and 65MB+56KB+116KB (for SSD-Mobilenet-v2) respectively. Overal pre-converted is a little higher in size than post-converted model.
+
+**Inference Time:** The inference time of the model pre-conversion was taking hours. I tested the preconversion model inference time for SSD-Mobilenet-v2 on my laptop and it was very slow. I have uploaded my code (Inference-MobileNet-Preconverted.ipynb) for running the inference on the pre-converted model(.pb file). The inference time was 213.48 for SSD-Mobilenet-v2 pre-conversion model. And model post-conversion was 206.87s(SSD-Mobilenet-v2), 1035.56s(DSOD) respectively. Please not that for measuring the inference time of the post conversion model I commented the client and app related code lines which cause extra overheads and make the comparison unfair.
 
 ## Assess Model Use Cases
 
@@ -61,17 +68,15 @@ Some of the potential use cases of the people counter app are to measure the num
 
 Each of these use cases would be useful because once collected, count data is normally sent via the internet (in near real-time) to a retail analytics platform for analysis. The data can be analyzed and used for further decision making and planning to improve different aspects of the business.
 
-
 ## Assess Effects on End User Needs
 
-Lighting, model accuracy, and camera focal length/image size have different effects on a
-deployed edge model. The potential effects of each of these are as follows:
+Lighting, model accuracy, and camera focal length/image size have different effects on a deployed edge model. The potential effects of each of these are as follows:
 
-**camera focal length:** All lenses suffer from a certain amount of distortion, in which the image is either stretched or compressed in a non-linear way, making accurate measurements difficult. In general, shorter focal length lenses experience more distortion than longer focal length lenses since the light hits the sensor from a bigger angle.
+**camera focal length:** All lenses suffer from a certain amount of distortion, in which the image is either stretched or compressed in a non-linear way, making accurate measurements difficult. In general, shorter focal length lenses experience more distortion than longer focal length lenses since the light hits the sensor from a bigger angle. In obeject detection, the size and distance to the detected object is calculated with known internal camera parameters such as focal length and focal point position. Longer focal length acting like a ”magnifier" for estimating the distance of a far object. But short focal length are for applications that knowing the distance of the object is not critical.
 
-**Lighting:** Non-uniform illumination and shading across the image affect lens performance. With any lens, image brightness is reduced towards the edges and this is known as vignetting. Cos4 vignetting occurs because the light has to travel further to the edge of the image and reaches the sensor at a shallower angle. Mechanical vignetting occurs when the light beam is mechanically blocked, usually by the lens amount.
+**Lighting:** Lighting changes the image quality. If we are building a traffic sign detection model that will run in a car, ywe have to use images taken under different weather, lighting and camera conditions in their appropriate context. This will help model to be trained better and perform better at the production. 
 
-**Model Accuracy:** Accuracy of the deployed edge model is very important. The more accurate the model the lower the threshold needed to be provided to the app will be. 
+**Model Accuracy:** The more accurate the model is, the more complicated it would be and its performance will be lower on the edge and on resource-constrained devices. There should always be a trade-off between accuracy and performance. The current researches are trying to design models that while outperforms many other models in terms of accuracy are able to run with a fast speed and lower latency and power consumption on edge devices. 
 
 ## Model Research
 
@@ -144,7 +149,7 @@ But I got the following error:
   - The model was sufficient for the app. Because this model was a pretty small and efficiet model, I used it for debugging purpose and it was very helpful for me to get my code working.
 
   - **Note**: To run the model you should use the following command:
-  ```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model3-SSD-MobileNet/frozen_inference_graph.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.9```
+  ```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m frozen_inference_graph.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.9 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://localhost:3004/fac.ffm```
 
 - Model 4: [DSOD]
   - [https://github.com/szq0214/DSOD]. Here is the link to the model I downloaded for the project: https://drive.google.com/drive/folders/0B4cvsEOB5eUCaGU3MkRkOENRWWc. The model is: DSOD300 (07+12) bs=4.
@@ -154,4 +159,4 @@ But I got the following error:
   - The model was sufficient for the app and I successfully converted it to IR representation.
   - This model is my final model I used for answering the project's questions.
   
-  - **Note**: To run the model you should use the following command:```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model4-DSOD/DSOD300_VOC0712.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.85```
+  - **Note**: To run the model you should use the following command:```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model4-DSOD/DSOD300_VOC0712.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.85 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://localhost:3004/fac.ffm```

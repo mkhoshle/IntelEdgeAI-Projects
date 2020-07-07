@@ -136,9 +136,10 @@ def infer_on_stream(args,client):
     current_count = 0
     last_count = 0 
     total_count = 0
-    center_x_old = 0
-    center_y_old = 0
-    ii = 0
+    center_x_old = 0            # x component of the box center
+    center_y_old = 0            # y component of the box center
+    request_id = 0   
+    ii = 0                      # Frame number
     while capture.isOpened():
         ii += 1
         ### TODO: Read from the video capture ###
@@ -156,7 +157,7 @@ def infer_on_stream(args,client):
         p_frame = p_frame.reshape(1, 3, h, w)
         
         ### TODO: Start asynchronous inference for specified request ###
-        plugin.exec_net(p_frame)
+        plugin.exec_net(p_frame,request_id)
         
         ### TODO: Get the results of the inference request ###
         ### TODO: Wait for the result ###
@@ -165,18 +166,18 @@ def infer_on_stream(args,client):
             result = plugin.get_output()
             
             ### Update the frame to include detected bounding boxes
-            out_frame, center_x,center_y = draw_boxes(frame, result, args, width, height)  
-#             print(center_x,center_y,11111)
+            out_frame, center_x, center_y = draw_boxes(frame, result, args, width, height)  
+
             if center_x:
-#                 print(np.sqrt((center_x-center_x_old)**2+(center_y-center_y_old)**2))
                 if np.sqrt((center_x-center_x_old)**2+(center_y-center_y_old)**2)>110:
                     current_count = 1
                 center_x_old = center_x
                 center_y_old = center_y
             else:
                 current_count = 0
-        
-            ### TODO: Calculate and send relevant information on ###
+                
+            client.publish("person", json.dumps({"count": current_count}))
+            ### Calculate and send relevant information on ###
             ### current_count, total_count and duration to the MQTT server ###
             ### Topic "person": keys of "count" and "total" ###
             ### Topic "person/duration": key of "duration" ###
@@ -184,19 +185,17 @@ def infer_on_stream(args,client):
                 start_time = time.time()
                 total_count = total_count + current_count - last_count
                 client.publish("person", json.dumps({"total": total_count}))
-#                 print('total_count',total_count)
-                print ('frame in', ii)
+#                 print ('frame in', ii)     # This is for debugging 
 
             if current_count < last_count:
                 duration = int(time.time() - start_time)
                 # Publish messages to the MQTT server
-                client.publish("person/duration",json.dumps({"duration": duration}))
-#                 print("duration", duration)
-                print ('frame out', ii)
-            
-#             print(current_count,last_count,total_count,22222)
-            client.publish("person", json.dumps({"count": current_count}))
-            
+                client.publish("person/duration",json.dumps({"duration": duration}))         
+#                 print ('frame out', ii)    # This is for debugging 
+                
+                    
+            if key_pressed == 27:
+                break
             last_count = current_count    
               
         out.write(out_frame)
