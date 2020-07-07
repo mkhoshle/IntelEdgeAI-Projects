@@ -58,7 +58,7 @@ Running the model **pre-conversion**, I have created the code for running infere
  - Accuracy = (TP+TN)/Total = (314+134)/1394 = 0.32
 
 
-**Model Size:** I checked model size using ls -sh command. The size of the model pre- and post-conversion was 57MB+100KB and 57MB+168KB+40KB (for DSOD) respectively and 67MB+8KB and 65MB+56KB+116KB (for SSD-Mobilenet-v2) respectively. Overal pre-converted is a little higher in size than post-converted model.
+**Model Size:** I checked model size using ls -sh command. The size of the model pre- and post-conversion was 57MB+100KB and 57MB+168KB+40KB (for _DSOD_) respectively and 67MB+8KB and 65MB+56KB+116KB (for _SSD-Mobilenet-v2_) respectively. Overal pre-converted is a little higher in size than post-converted model.
 
 **Inference Time:** The inference time of the model pre-conversion was taking hours. I tested the preconversion model inference time for SSD-Mobilenet-v2 on my laptop using CPU (`Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz`). I have uploaded my code (`Inference-MobileNet-Preconverted.ipynb`) for running the inference on the pre-converted model(.pb file). The inference time was 213.48 for _SSD-Mobilenet-v2_ pre-conversion model. And model post-conversion was 206.87s(_SSD-Mobilenet-v2_), 1035.56s(_DSOD_) respectively. Please not that for measuring the inference time of the post conversion model I commented the client and app related code lines which cause extra overheads and make the comparison unfair.
 
