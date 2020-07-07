@@ -154,7 +154,7 @@ But I got the following error:
   - The model was sufficient for the app. Because this model was a pretty small and efficiet model, I used it for debugging purpose and it was very helpful for me to get my code working.
 
   - **Note**: To run the model you should use the following command:
-  ```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m frozen_inference_graph.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.9 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://localhost:3004/fac.ffm```
+  ```python main.py -i resources/Pedestrian_Detect_2_1_1.mp4  -m model3-MobileNet/frozen_inference_graph.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.9 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://localhost:3004/fac.ffm```
 
 - Model 4: [DSOD]
   - [https://github.com/szq0214/DSOD]. Here is the link to the model I downloaded for the project: https://drive.google.com/drive/folders/0B4cvsEOB5eUCaGU3MkRkOENRWWc. The model is: DSOD300 (07+12) bs=4.
