@@ -11,7 +11,7 @@ The models used in this project are:
 - [Gaze Estimation Model](https://docs.openvinotoolkit.org/latest/_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
 
 The procedure for seting up your environment includes:
-- Download and install **OpenVino toolkit** using the instructions provided [here](https://docs.openvinotoolkit.org/latest/index.html).
+- Download and install **OpenVino toolkit** using the instructions provided [here](https://github.com/udacity/nd131-openvino-fundamentals-project-starter/blob/master/mac-setup.md).
 - Download and install the DL Workbench from [here](https://docs.openvinotoolkit.org/latest/_docs_Workbench_DG_Install_Workbench.html). In short, you will need to:
 	- For Linux and Windows you can find the docker command [here](https://docs.openvinotoolkit.org/latest/_docs_Workbench_DG_Install_from_Docker_Hub.html#install_dl_workbench_from_docker_hub_on_windows_os).
 	- For macOS, the Docker command is:
@@ -49,7 +49,8 @@ This code follows the following directory structure:
 *TODO:* Include any documentation that users might need to better understand your project code. For instance, this is a good place to explain the command line arguments that your project supports.
 
 ## Benchmarks
-*TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.
+The benchamrk results are shown in the following tables:
+<img src="benchmark.png"/>
 
 ## Results
 *TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
