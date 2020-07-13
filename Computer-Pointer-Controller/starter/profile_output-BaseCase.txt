@@ -1,0 +1,93 @@
+Timer unit: 1e-06 s
+
+Total time: 2.12622 s
+File: main.py
+Function: infer_on_stream at line 51
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    51                                           @profile
+    52                                           def infer_on_stream(args):
+    53         1         11.0     11.0      0.0      feed = InputFeeder(input_type=args.input_type,input_file=args.input)
+    54         1     335556.0 335556.0     15.8      feed.load_data()
+    55                                           
+    56         1         52.0     52.0      0.0      width = int(feed.cap.get(3))
+    57         1          4.0      4.0      0.0      height = int(feed.cap.get(4))
+    58                                              
+    59         1          9.0      9.0      0.0      model1, model2, model3,model4 = list(args.model.split(' '))
+    60                                               # Load face dtection model
+    61         1         18.0     18.0      0.0      plugin_fd = face_detection(model1, args.device)
+    62         1     754309.0 754309.0     35.5      plugin_fd.load_model()
+    63                                               
+    64                                               # Load head pose estimation model
+    65         1         12.0     12.0      0.0      plugin_hp = head_pose_estimation(model2, args.device)
+    66         1     268687.0 268687.0     12.6      plugin_hp.load_model()
+    67                                           
+    68                                               # Load landmark dtection model
+    69         1         13.0     13.0      0.0      plugin_fld = facial_landmarks_detection(model3, args.device)
+    70         1     267157.0 267157.0     12.6      plugin_fld.load_model()
+    71                                           
+    72                                               # Load gaze estimation model
+    73         1         21.0     21.0      0.0      plugin_ge = gaze_estimation(model4, args.device)
+    74         1     338204.0 338204.0     15.9      plugin_ge.load_model()
+    75                                           
+    76                                               # Instansiate Mouse Controller
+    77         1         13.0     13.0      0.0      mc = MouseController('medium','medium')
+    78                                               
+    79         1          1.0      1.0      0.0      if args.chk_performance:
+    80                                           #        pp = pprint.PrettyPrinter(indent=4)
+    81                                           #    else:
+    82         1          1.0      1.0      0.0          pp = None
+    83                                           
+    84         1          1.0      1.0      0.0      request_id = 0  
+    85         1     162153.0 162153.0      7.6      for i,frame in enumerate(feed.next_batch()):
+    86                                                   if frame is None:
+    87                                                       break
+    88                                                   else:
+    89                                                       print("iteration No: {}".format(i))
+    90                                                   
+    91                                                       ## Face Detection
+    92                                                       p_frame = plugin_fd.preprocess_input(frame)
+    93                                                       plugin_fd.predict(p_frame, request_id)
+    94                                                       if plugin_fd.wait() == 0:
+    95                                                           if pp:
+    96                                                               pp.pprint(plugin_fd.exec_network.requests[0].get_perf_counts())
+    97                                                           outputs = plugin_fd.get_output()
+    98                                                           face_crop = plugin_fd.preprocess_output(outputs, frame, args, width, height)
+    99                                           
+   100                                                       ## Head pose estimation
+   101                                                       p_face_crop = plugin_hp.preprocess_input(face_crop)
+   102                                                       plugin_hp.predict(p_face_crop, request_id)
+   103                                                       if plugin_hp.wait() == 0:
+   104                                                           outputs = plugin_hp.get_output()
+   105                                                           angles = plugin_hp.preprocess_output(outputs)
+   106                                           
+   107                                                       ## Landmark detection model
+   108                                                       p_face_crop = plugin_fld.preprocess_input(face_crop)
+   109                                                       plugin_fld.predict(p_face_crop, request_id)
+   110                                                       if plugin_fld.wait() == 0:
+   111                                                           outputs = plugin_fld.get_output()
+   112                                                           initial_w = np.shape(face_crop)[1]
+   113                                                           initial_h = np.shape(face_crop)[0]
+   114                                                           left_eye,right_eye = plugin_fld.preprocess_output(outputs,face_crop,initial_w, initial_h)
+   115                                                   
+   116                                                       ## Gaze estimation model
+   117                                                       net_input = plugin_ge.preprocess_input(left_eye, right_eye,angles)
+   118                                                       plugin_ge.predict(net_input, request_id)
+   119                                                       if plugin_ge.wait() == 0:
+   120                                                           outputs = plugin_ge.get_output()
+   121                                                           x,y = plugin_ge.preprocess_output(outputs)
+   122                                                       
+   123                                                       # for benchmarking we only do one iteration
+   124                                                       if pp:
+   125                                                           break
+   126                                           
+   127                                                       ## Change mouse location
+   128                                           #            cv2.imshow('window-name',frame)
+   129                                                       # This will cause a delay in order to give mouse enough time to move in the desired direction
+   130                                           #            cv2.waitKey(60)
+   131                                           #            mc.move(x,y)
+   132                                           
+   133                                               feed.close()
+   134                                               return
+
