@@ -63,8 +63,8 @@ In the base-case all models have FP32 precision. Considering the throughput and 
 
 Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well.
 
-## Stand Out Suggestions
-This is where you can provide information about the stand out suggestions that you have attempted.
+## VTune Amplifier
+
 
 ### Async Inference
 If you have used Async Inference in your code, benchmark the results and explain its effects on power and performance of your project.
