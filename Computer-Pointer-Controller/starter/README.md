@@ -45,8 +45,13 @@ This code follows the following directory structure:
 ## Demo
 *TODO:* Explain how to run a basic demo of your model.
 
-## Documentation
-*TODO:* Include any documentation that users might need to better understand your project code. For instance, this is a good place to explain the command line arguments that your project supports.
+## Model Pipeline:
+The project involves interaction multiple models and here is the model pipeline works:
+- Face detection model receives an image, run the inference, detects the face, crop and output the detected face.
+- Head pose estimation model receives the dtected face as input and output the head pose angles (yaw, pitch, roll).
+- Landmark face detection model receives the dtected face as input and output the cropped left and right eye. 
+- Gaze estimation model receives the cropped left and right eye and the head pose angles as input and output the gaze_vector.
+- Finally the x and y coordinates of the gaze vector will be provided to the mouse controller and the mouse pointer will be moved accordingly. 
 
 ## Benchmarks
 The benchamrk results are shown in the following tables:
