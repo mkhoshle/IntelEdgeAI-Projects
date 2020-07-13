@@ -50,7 +50,7 @@ This code follows the following directory structure:
 
 ## Benchmarks
 The benchamrk results are shown in the following tables:
-<img src="benchmark.png"/>
+<img src="benchmak.png"/>
 
 ## Results
 *TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
