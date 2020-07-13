@@ -4,14 +4,20 @@ import time
 import cv2
 import numpy as np
 import logging as log
-
 from argparse import ArgumentParser
+import pprint
+
 from face_detection import face_detection
 from gaze_estimation import gaze_estimation
 from head_pose_estimation import head_pose_estimation
 from facial_landmarks_detection import facial_landmarks_detection
 from mouse_controller import MouseController
 from input_feeder import InputFeeder
+
+import line_profiler
+profile=line_profiler.LineProfiler()
+import atexit
+atexit.register(profile.print_stats)
 
 def build_argparser():
     """
@@ -38,10 +44,12 @@ def build_argparser():
                         help="The type of input can be 'video','image' or 'cam'")
     parser.add_argument("-it", "--input_type", type=str, default='video',
                         help="The type of input can be 'video','image' or 'cam'")
+    parser.add_argument("-cp", "--chk_performance", type=bool, default=False,
+                        help="True if user wants to see benchmarks")
     return parser
 
-
-def infer_on_stream(args,client):
+@profile
+def infer_on_stream(args):
     feed = InputFeeder(input_type=args.input_type,input_file=args.input)
     feed.load_data()
 
@@ -66,20 +74,25 @@ def infer_on_stream(args,client):
     plugin_ge.load_model()
 
     # Instansiate Mouse Controller
-    mc = MouseController('high','fast')
+    mc = MouseController('medium','medium')
+    
+    if args.chk_performance:
+        pp = pprint.PrettyPrinter(indent=4)
+    else:
+        pp = None
 
     request_id = 0  
     for i,frame in enumerate(feed.next_batch()):
         if frame is None:
             break
         else:
-            print("iteration No: {}".format(i))
-            key_pressed = cv2.waitKey(60)
-        
+#            print("iteration No: {}".format(i))       
             ## Face Detection
             p_frame = plugin_fd.preprocess_input(frame)
             plugin_fd.predict(p_frame, request_id)
             if plugin_fd.wait() == 0:
+                if pp:
+                    pp.pprint(plugin_fd.exec_network.requests[0].get_perf_counts())
                 outputs = plugin_fd.get_output()
                 face_crop = plugin_fd.preprocess_output(outputs, frame, args, width, height)
 
@@ -106,14 +119,15 @@ def infer_on_stream(args,client):
                 outputs = plugin_ge.get_output()
                 x,y = plugin_ge.preprocess_output(outputs)
             
-            if key_pressed == 27:
+            # for benchmarking we only do one iteration
+            if pp:
                 break
 
             ## Change mouse location
             cv2.imshow('window-name',frame)
-            mc.move(x,y)
             # This will cause a delay in order to give mouse enough time to move in the desired direction
-            cv2.waitKey(30)
+            cv2.waitKey(60)
+            mc.move(x,y)
 
     feed.close()
     return
@@ -128,7 +142,7 @@ def main():
     args = build_argparser().parse_args()
     # Perform inference on the input stream
     start_time = time.time()
-    infer_on_stream(args,client)
+    infer_on_stream(args)
     print("Inference time was: {}".format(time.time()-start_time))
 
 
