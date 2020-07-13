@@ -14,7 +14,28 @@ The procedure for seting up your environment includes:
 - Download and install **OpenVino toolkit** using the instructions provided [here](https://docs.openvinotoolkit.org/latest/index.html).
 - Download VTune Amplifier from [here](https://software.intel.com/en-us/vtune/choose-download#standalone) and you can get detailed instructions about how to install and run it from [here](https://software.intel.com/en-us/get-started-with-vtune). 
 
+This code follows the following directory structure:
 
+	.
+	├── LICENSE 
+	├── README.md                      <- The top-level README for developers using this project.
+	├── bin
+	│   ├── demo.mp4                   <- Input video to test the code.
+	│     
+	│     
+	├── requirements.txt               <- Package dependencies required to be installed.
+	├── src                            <- Source code for use in this project.
+        ├── face_detection.py                  <- Face detection model
+        ├── head_pose_estimation.py            <- Head pose estimation model
+        ├── facial_landmarks_detection.py      <- Facial landmarks detection model
+        ├── gaze_estimation.py                 <- Gaze estimation model
+        │
+        ├── input_feeder.py                    <- Script to handle the input images
+        ├── mouse_controller.py                <- Script to move the mouse accoording to estimated gaze direction
+        │
+        └── main.py                            <- The main script coordinating flow of data from the input, and then amongst different models and finally to the mouse controller.
+    
+        
 ## Demo
 *TODO:* Explain how to run a basic demo of your model.
 
