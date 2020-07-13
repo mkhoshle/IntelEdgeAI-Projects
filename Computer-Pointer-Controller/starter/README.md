@@ -54,13 +54,14 @@ The project involves interaction multiple models and here is the model pipeline 
 - Finally the x and y coordinates of the gaze vector will be provided to the mouse controller and the mouse pointer will be moved accordingly. 
 
 ## Benchmarks
-The benchamrk results are shown in the following tables. These throughputs and latencies are calculated using DL Workbench for various model precisions. As highlighted in the table, Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 precisions provide higher throughput and lower latencies as compared to other precisions of the model.  
-In the base-case all models have FP32 precision. Considering the throughput and latency results, the second case includes Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 which has improved the overal timing a little bit.  
+The benchamrk results are shown in the following tables. These throughputs and latencies are calculated using DL Workbench for various model precisions.  
 <img src="benchmak.png"/>
-Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well .
 
 ## Results
-*TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
+As highlighted in the table, Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 precisions provide higher throughput and lower latencies as compared to other precisions of the model.  
+In the base-case all models have FP32 precision. Considering the throughput and latency results, the second case includes Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 which has improved the overal timing a little bit. 
+
+Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well.
 
 ## Stand Out Suggestions
 This is where you can provide information about the stand out suggestions that you have attempted.
