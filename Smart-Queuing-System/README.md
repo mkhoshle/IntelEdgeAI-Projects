@@ -6,7 +6,7 @@ At a high level, I will:
   -  Propose a possible hardware solution
   -  Build out your application and test its performance on the DevCloud using multiple hardware types
   -  Compare the performance to see which hardware performed best
-  -  Revise your proposal based on the test results
+  -  Revise my proposal based on the test results
 
 ## The Scenarios
 
