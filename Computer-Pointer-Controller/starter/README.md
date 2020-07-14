@@ -41,18 +41,6 @@ This code follows the following directory structure:
         │
         └── main.py                            <- The main script coordinating flow of data from the input, and then amongst different models and finally to the mouse controller.
     
-        
-## Demo
-To run the model you can use the following sample:
-1) For base-case:
-```
-python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml ../intel/gaze-estimation-adas-0002/FP32/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
-```
-2) For the second case:
-```
-python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml  ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
-```
-
 ## Model Pipeline:
 The project involves interaction multiple models and here is the model pipeline works:
 - Face detection model receives an image, run the inference, detects the face, crop and output the detected face.
@@ -70,6 +58,17 @@ As highlighted in the table, Face detection model with precision of FP32, Head p
 In the base-case all models have FP32 precision. Considering the throughput and latency results, the second case includes Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 which has improved the overal timing a little bit. 
 
 Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well.
+
+## Demo
+To run the model you can use the following sample:
+1) For base-case:
+```
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml ../intel/gaze-estimation-adas-0002/FP32/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
+```
+2) For the second case:
+```
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml  ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
+```
 
 ## VTune Amplifier
 
