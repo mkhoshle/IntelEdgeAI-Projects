@@ -46,9 +46,9 @@ This code follows the following directory structure:
 To run the model you can use the following sample:
 ```
 
-python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose- estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml  ../intel/gaze-estimation-adas-0002/FP32/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-<br /> estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml <br /> ../intel/gaze-estimation-adas-0002/FP32/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
 
-python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose- estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-<br /> estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml <br /> ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
 
 ```
 
