@@ -54,7 +54,7 @@ The project involves interaction multiple models and here is the model pipeline 
 - Finally the x and y coordinates of the gaze vector will be provided to the mouse controller and the mouse pointer will be moved accordingly. 
 
 ## Benchmarks
-The benchamrk results are shown in the following tables. These throughputs and latencies are calculated using DL Workbench for various model precisions.  
+The benchamrk results are shown in the following tables. These throughputs and latencies are calculated using DL Workbench for various model precisions. I used my laptop with `Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz` to perform these benchmarks. 
 <img src="benchmak.png"/>
 
 ## Results
