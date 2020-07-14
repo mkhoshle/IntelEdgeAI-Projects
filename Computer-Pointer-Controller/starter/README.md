@@ -79,9 +79,6 @@ python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/
 python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml  ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
 ```
 
-## VTune Amplifier
-
-
 ### Async Inference
 If you have used Async Inference in your code, benchmark the results and explain its effects on power and performance of your project.
 
