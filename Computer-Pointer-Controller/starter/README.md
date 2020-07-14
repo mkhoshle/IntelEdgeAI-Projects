@@ -51,6 +51,15 @@ The project involves interaction multiple models and here is the model pipeline 
 
 ## Benchmarks
 The benchamrk results are shown in the following tables. These throughputs and latencies are calculated using DL Workbench for various model precisions. I used my laptop with `Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz` to perform these benchmarks. 
+
+**Note:** For benchamark and performance optimization purpose, these lines of the code should be commented out.
+```
+cv2.imshow('window-name',frame)
+# This will cause a delay in order to give mouse enough time to move in the desired direction
+cv2.waitKey(60)
+mc.move(x,y)
+```
+
 <img src="benchmak.png"/>
 
 ## Results
