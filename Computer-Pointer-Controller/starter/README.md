@@ -12,13 +12,13 @@ The models used in this project are:
 
 The procedure for seting up your environment includes:
 - Download and install **OpenVino toolkit** using the instructions provided [here](https://github.com/udacity/nd131-openvino-fundamentals-project-starter/blob/master/mac-setup.md).
-- Download and install the DL Workbench from [here](https://docs.openvinotoolkit.org/latest/_docs_Workbench_DG_Install_Workbench.html). In short, you will need to:
+- Download and install the **DL Workbench** from [here](https://docs.openvinotoolkit.org/latest/_docs_Workbench_DG_Install_Workbench.html). In short, you will need to:
 	- For Linux and Windows you can find the docker command [here](https://docs.openvinotoolkit.org/latest/_docs_Workbench_DG_Install_from_Docker_Hub.html#install_dl_workbench_from_docker_hub_on_windows_os).
 	- For macOS, the Docker command is:
 	```
 	docker run -p 127.0.0.1:5665:5665 --name workbench -e PROXY_HOST_ADDRESS=0.0.0.0 -e PORT=5665 -it openvino/workbench:latest
 	```
-- Download VTune Amplifier from [here](https://software.intel.com/en-us/vtune/choose-download#standalone) and you can get detailed instructions about how to install and run it from [here](https://software.intel.com/en-us/get-started-with-vtune). 
+- Download **VTune Amplifier** from [here](https://software.intel.com/en-us/vtune/choose-download#standalone) and you can get detailed instructions about how to install and run it from [here](https://software.intel.com/en-us/get-started-with-vtune). 
 
 This code follows the following directory structure:
 
