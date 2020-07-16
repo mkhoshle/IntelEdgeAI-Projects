@@ -2,6 +2,8 @@
 
 In this project, I use a gaze detection model to control the mouse pointer of my computer. I use the Gaze Estimation model to estimate the gaze of the user's eyes and change the mouse pointer position accordingly. This project will require running multiple models in the same machine and coordinating the flow of data between those models.
 
+![Output sample](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/output_video.gif)
+
 ## Project Set Up and Installation
 The models used in this project are:
 
