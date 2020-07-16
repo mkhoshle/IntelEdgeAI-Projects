@@ -23,3 +23,6 @@ The three scenarios are:
 
 All of the scenarios involve people in queues, but each scenario will require different hardware. 
 So your first task will be to determine which hardware might work for each scenario—and then explain our initial choice in a proposal document. 
+
+## Benchmarks
+The details of the benchmarks and the results can be found [here](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Smart-Queuing-System/choose-the-right-hardware-proposal-template.pdf).
