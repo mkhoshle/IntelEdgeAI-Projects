@@ -1,7 +1,3 @@
-'''
-This is a sample class for a model. You may choose to use it as-is or make any changes to it.
-This has been provided just to give you an idea of how to structure your model class.
-'''
 import cv2
 import os
 import sys
@@ -28,7 +24,6 @@ class face_detection:
 
     def load_model(self):
         '''
-        TODO: You will need to complete this method.
         This method is for loading the model to the device specified by the user.
         If your model requires any Plugins, this is where you can load them.
         '''
@@ -47,7 +42,6 @@ class face_detection:
 
     def predict(self, image, request_id):
         '''
-        TODO: You will need to complete this method.
         This method is meant for running predictions on the input image.
         '''
         self.exec_network.start_async(request_id=request_id,inputs={self.input_blob: image})
@@ -86,6 +80,7 @@ class face_detection:
         return self.exec_network.requests[0].outputs[self.output_blob]
 
     def preprocess_output(self, faces, image, args, width, height):
+
         '''
         Before feeding the output of this model to the next model,
         you might have to preprocess the output. This function is where you can do that.
@@ -98,7 +93,8 @@ class face_detection:
                 ymin = int(box[4] * height)
                 xmax = int(box[5] * width)
                 ymax = int(box[6] * height)
-                cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 1)
+                if args.log_level == "DEBUG":
+                    cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
                 face_crop = image[ymin:ymax, xmin:xmax]
 
         return face_crop

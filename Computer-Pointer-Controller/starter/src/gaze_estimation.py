@@ -1,7 +1,3 @@
-'''
-This is a sample class for a model. You may choose to use it as-is or make any changes to it.
-This has been provided just to give you an idea of how to structure your model class.
-'''
 import cv2
 import os
 import sys
@@ -29,7 +25,6 @@ class gaze_estimation:
 
     def load_model(self):
         '''
-        TODO: You will need to complete this method.
         This method is for loading the model to the device specified by the user.
         If your model requires any Plugins, this is where you can load them.
         '''
@@ -47,7 +42,6 @@ class gaze_estimation:
 
     def predict(self,net_input,request_id):
         '''
-        TODO: You will need to complete this method.
         This method is meant for running predictions on the input image.
         '''
         self.exec_network.start_async(request_id=request_id,inputs=net_input)
@@ -92,9 +86,13 @@ class gaze_estimation:
         net_input = {input_names[0]:p_frame_l,input_names[1]:p_frame_r,input_names[2]:head_pose_angle}
         return net_input
 
-    def preprocess_output(self, outputs):
+    def preprocess_output(self, outputs,left_eye_center,right_eye_center,face_frame,args):
         '''
         Before feeding the output of this model to the next model,
         you might have to preprocess the output. This function is where you can do that.
         '''
-        return outputs[0][0],outputs[0][1]
+        x,y = outputs[0][0],outputs[0][1]
+        if args.log_level == "DEBUG":
+            cv2.arrowedLine(face_frame, left_eye_center, (int(left_eye_center[0]+x*400), int(left_eye_center[1]-y*400)), (0,0,0), 5)
+            cv2.arrowedLine(face_frame, right_eye_center, (int(right_eye_center[0]+x*400), int(right_eye_center[1]-y*400)), (0,0,0), 5)
+        return x,y

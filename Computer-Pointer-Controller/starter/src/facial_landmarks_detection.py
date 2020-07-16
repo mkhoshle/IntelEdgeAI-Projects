@@ -1,7 +1,3 @@
-'''
-This is a sample class for a model. You may choose to use it as-is or make any changes to it.
-This has been provided just to give you an idea of how to structure your model class.
-'''
 import cv2
 import os
 import sys
@@ -29,7 +25,6 @@ class facial_landmarks_detection:
 
     def load_model(self):
         '''
-        TODO: You will need to complete this method.
         This method is for loading the model to the device specified by the user.
         If your model requires any Plugins, this is where you can load them.
         '''
@@ -48,7 +43,6 @@ class facial_landmarks_detection:
 
     def predict(self, image, request_id):
         '''
-        TODO: You will need to complete this method.
         This method is meant for running predictions on the input image.
         '''
         self.exec_network.start_async(request_id=request_id,inputs={self.input_blob: image})
@@ -85,7 +79,7 @@ class facial_landmarks_detection:
         p_frame = p_frame.reshape(1, 3, h, w)
         return p_frame
 
-    def preprocess_output(self, outputs, image, initial_w, initial_h):
+    def preprocess_output(self, outputs, image, initial_w, initial_h, args):
         '''
         Before feeding the output of this model to the next model,
         you might have to preprocess the output. This function is where you can do that.
@@ -99,15 +93,19 @@ class facial_landmarks_detection:
         ylmin = yl-15
         xlmax = xl+15
         ylmax = yl+15
-        
+        if args.log_level == "DEBUG":
+            cv2.rectangle(image, (xlmin, ylmin), (xlmax, ylmax), (0, 255, 0), 3)        
         left_eye = image[ylmin:ylmax, xlmin:xlmax]
+        left_eye_center = (xl,yl)
 
         # make box for right eye
         xrmin = xr-15
         yrmin = yr-15
         xrmax = xr+15
         yrmax = yr+15
-
+        if args.log_level == "DEBUG":
+            cv2.rectangle(image, (xrmin, yrmin), (xrmax, yrmax), (0, 255, 0), 3)
         right_eye = image[yrmin:yrmax, xrmin:xrmax]
-        
-        return left_eye,right_eye
+        right_eye_center = (xr,yr)
+
+        return left_eye,right_eye,left_eye_center,right_eye_center

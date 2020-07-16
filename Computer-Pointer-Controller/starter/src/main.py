@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import cv2
+import logging
 import numpy as np
 import logging as log
 from argparse import ArgumentParser
@@ -18,6 +19,14 @@ import line_profiler
 profile=line_profiler.LineProfiler()
 import atexit
 atexit.register(profile.print_stats)
+
+#Create and configure logger 
+logging.getLogger().setLevel(logging.INFO)
+#Create and configure logger 
+logging.basicConfig(filename="newfile.log", 
+                    format='%(asctime)s %(message)s', 
+                    filemode='w') 
+
 
 def build_argparser():
     """
@@ -46,6 +55,8 @@ def build_argparser():
                         help="The type of input can be 'video','image' or 'cam'")
     parser.add_argument("-cp", "--chk_performance", type=bool, default=False,
                         help="True if user wants to see benchmarks")
+    parser.add_argument("-ll", "--log_level", type=str, default="INFO",
+                        help="Specifies the logging level. Can be DEBUG, INFO, WARNING")
     return parser
 
 @profile
@@ -60,22 +71,27 @@ def infer_on_stream(args):
     # Load face dtection model
     plugin_fd = face_detection(model1, args.device)
     plugin_fd.load_model()
+    logging.info("Loaded face dtection model")
     
     # Load head pose estimation model
     plugin_hp = head_pose_estimation(model2, args.device)
     plugin_hp.load_model()
+    logging.info("Loaded head pose estimation model")
 
     # Load landmark dtection model
     plugin_fld = facial_landmarks_detection(model3, args.device)
     plugin_fld.load_model()
+    logging.info("Loaded landmark dtection model")
 
     # Load gaze estimation model
     plugin_ge = gaze_estimation(model4, args.device)
     plugin_ge.load_model()
+    logging.info("Loaded gaze estimation model")
 
     # Instansiate Mouse Controller
     mc = MouseController('medium','medium')
-    
+    logging.info("Instansiate Mouse Controller")
+
     if args.chk_performance:
         pp = pprint.PrettyPrinter(indent=4)
     else:
@@ -86,7 +102,8 @@ def infer_on_stream(args):
         if frame is None:
             break
         else:
-#            print("iteration No: {}".format(i))       
+            logging.info("iteration No: {}".format(i))
+            
             ## Face Detection
             p_frame = plugin_fd.preprocess_input(frame)
             plugin_fd.predict(p_frame, request_id)
@@ -95,13 +112,7 @@ def infer_on_stream(args):
                     pp.pprint(plugin_fd.exec_network.requests[0].get_perf_counts())
                 outputs = plugin_fd.get_output()
                 face_crop = plugin_fd.preprocess_output(outputs, frame, args, width, height)
-
-            ## Head pose estimation
-            p_face_crop = plugin_hp.preprocess_input(face_crop)
-            plugin_hp.predict(p_face_crop, request_id)
-            if plugin_hp.wait() == 0:
-                outputs = plugin_hp.get_output()
-                angles = plugin_hp.preprocess_output(outputs)
+            logging.info("Done with face detection")
 
             ## Landmark detection model
             p_face_crop = plugin_fld.preprocess_input(face_crop)
@@ -110,22 +121,34 @@ def infer_on_stream(args):
                 outputs = plugin_fld.get_output()
                 initial_w = np.shape(face_crop)[1]
                 initial_h = np.shape(face_crop)[0]
-                left_eye,right_eye = plugin_fld.preprocess_output(outputs,face_crop,initial_w, initial_h)
-        
+                left_eye,right_eye,left_eye_center,right_eye_center = plugin_fld.preprocess_output(outputs,face_crop,initial_w, initial_h,args)
+            logging.info("Done with Landmark detection")
+
+            ## Head pose estimation
+            p_face_crop = plugin_hp.preprocess_input(face_crop)
+            plugin_hp.predict(p_face_crop, request_id)
+            if plugin_hp.wait() == 0:
+                outputs = plugin_hp.get_output()
+                angles = plugin_hp.preprocess_output(outputs,frame,args)
+            logging.info("Done with Head pose estimation")
+
             ## Gaze estimation model
             net_input = plugin_ge.preprocess_input(left_eye, right_eye,angles)
             plugin_ge.predict(net_input, request_id)
             if plugin_ge.wait() == 0:
                 outputs = plugin_ge.get_output()
-                x,y = plugin_ge.preprocess_output(outputs)
-            
+                x,y = plugin_ge.preprocess_output(outputs,left_eye_center,right_eye_center,face_crop,args)
+            logging.info("Done with Gaze estimation")
+
             # for benchmarking we only do one iteration
             if pp:
                 break
-
+            
+            cv2.namedWindow("out")          # Create a named window
+            cv2.moveWindow("out", 140,30)   # Change window location 
             ## Change mouse location
-            cv2.imshow('window-name',frame)
-            # This will cause a delay in order to give mouse enough time to move in the desired direction
+            cv2.imshow('out',frame)
+            # This will cause a delay in order to give mouse enough time to move in the gaze direction
             cv2.waitKey(60)
             mc.move(x,y)
 

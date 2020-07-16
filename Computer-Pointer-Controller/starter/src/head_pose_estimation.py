@@ -1,7 +1,3 @@
-'''
-This is a sample class for a model. You may choose to use it as-is or make any changes to it.
-This has been provided just to give you an idea of how to structure your model class.
-'''
 import cv2
 import os
 import sys
@@ -28,7 +24,6 @@ class head_pose_estimation:
 
     def load_model(self):
         '''
-        TODO: You will need to complete this method.
         This method is for loading the model to the device specified by the user.
         If your model requires any Plugins, this is where you can load them.
         '''
@@ -47,7 +42,6 @@ class head_pose_estimation:
 
     def predict(self, image, request_id):
         '''
-        TODO: You will need to complete this method.
         This method is meant for running predictions on the input image.
         '''
         self.exec_network.start_async(request_id=request_id,inputs={self.input_blob: image})
@@ -84,10 +78,16 @@ class head_pose_estimation:
         p_frame = p_frame.reshape(1, 3, h, w)
         return p_frame
 
-    def preprocess_output(self, outputs):
+    def preprocess_output(self, outputs, image, args):
         '''
         Before feeding the output of this model to the next model,
         you might have to preprocess the output. This function is where you can do that.
         '''
+        
+        text = "head pose angle: {}".format(outputs[0][0])
+        if args.log_level == "DEBUG":
+            cv2.putText(image, text, (300,50), cv2.FONT_HERSHEY_SIMPLEX,  
+                    1, (255, 0, 0), 2, cv2.LINE_AA) 
         return outputs
+
 

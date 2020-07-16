@@ -1,0 +1,10 @@
+2020-07-16 18:15:32,569 Loaded face dtection model
+2020-07-16 18:15:32,707 Loaded head pose estimation model
+2020-07-16 18:15:32,866 Loaded landmark dtection model
+2020-07-16 18:15:33,169 Loaded gaze estimation model
+2020-07-16 18:15:33,169 Instansiate Mouse Controller
+2020-07-16 18:15:33,258 iteration No: 0
+2020-07-16 18:15:33,286 Done with face detection
+2020-07-16 18:15:33,287 Done with Landmark detection
+2020-07-16 18:15:33,291 Done with Head pose estimation
+2020-07-16 18:15:33,293 Done with Gaze estimation
