@@ -64,13 +64,6 @@ mc.move(x,y)
 
 <img src="benchmak.png"/>
 
-## Results
-As highlighted in the table, Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 precisions provide higher throughput and lower latencies as compared to other precisions of the model.  
-In the base-case all models have FP32 precision. Considering the throughput and latency results, the second case includes Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 which has improved the overal timing a little bit. 
-
-Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well.
-
-## Demo
 To run the model you can use the following sample:
 1) For base-case:
 ```
@@ -79,6 +72,24 @@ python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/
 2) For the second case:
 ```
 python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml  ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -cp True > profile_output.txt
+```
+
+## Results
+As highlighted in the table, Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 precisions provide higher throughput and lower latencies as compared to other precisions of the model.  
+In the base-case all models have FP32 precision. Considering the throughput and latency results, the second case includes Face detection model with precision of FP32, Head pose estimation with FP16, Facial landmark detection with FP16 and gaze estimation with FP16-INT8 which has improved the overal timing a little bit. 
+
+Note that, changing the precision of Head pose estimation, Facial landmark detection, and gaze estimation had minor improvemnt on the overal execution time. The reason is because the Face detection model is the main bottleneck as shown on the profiling output from the [base case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-BaseCase.txt) and the [second case](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/Computer-Pointer-Controller/starter/profile_output-SecondCase.txt) as well.
+
+## Demo
+To run the model you can use the following sample:
+1) For debugging purpose and to get all the bounding boxs and stats on the image:
+```
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7 -ll "DEBUG"
+```
+
+2) For production purpose:
+```
+python main.py -i ../bin/demo.mp4  -m "../intel/face-detection-adas-binary-0001/FP32-INT1/face-detection-adas-binary-0001.xml ../intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml ../intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml ../intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml" -d CPU -it 'video' -pt 0.7
 ```
 
 ### Async Inference
