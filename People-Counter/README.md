@@ -1,4 +1,4 @@
-# Deploy a People Counter App at the Edge (Project Write-Up)
+# Deploy a People Counter App at the Edge 
 
 Guidelines on how to set-up the project can be found at [SETUP_GUIDELINES](https://github.com/mkhoshle/IntelEdgeAI-Projects/blob/master/People-Counter/SETUP_GUIDELINES.md).
 
